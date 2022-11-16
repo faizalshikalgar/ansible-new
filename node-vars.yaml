@@ -1,0 +1,4 @@
+linux_user: faizal
+user_home_dir: /home/faizal
+version: 1.0.0
+location: /home/faizal/ansible/nodejs-app-{{version}}.tgz

@@ -1,0 +1,12 @@
+---
+- name: configure nginx web server
+  hosts: droplets
+  tasks:
+  - name: intalling nginx
+    apt: 
+      name: nginx=1.18.0-0ubuntu1
+      state: absent
+  - name: starting nginx
+    service: 
+      name: nginx
+      state: started

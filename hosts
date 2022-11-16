@@ -1,0 +1,19 @@
+[nexusServer]
+64.227.188.179 ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root
+
+[nodeapp]
+139.59.110.25 ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root
+
+[droplets]
+143.244.130.240
+
+[droplets:vars]
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+ansible_user=root
+
+[ec2]
+65.2.34.118
+
+[ec2:vars]
+ansible_ssh_private_key_file=~/ansible/ansible.pem
+ansible_user=ec2-user

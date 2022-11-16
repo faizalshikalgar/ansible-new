@@ -1,0 +1,53 @@
+---
+- name: updating apt cache and intalling nodejs and npm
+  hosts: nodeapp
+  tasks:
+  - name: apt update and cache
+    apt: 
+      update_cache: yes
+      force_apt_get: yes
+      cache_valid_time: 3600
+
+  - name: intalling nodejs and npm
+    apt:  
+      pkg:
+      - nodejs
+      - npm
+      
+- name: creating new user '{{linux_user}}' and adding in 'admin' group
+  hosts: nodeapp
+  vars_files:
+    - node-vars.yaml
+  tasks:
+  - name: Add the user '{{linux_user}}' and primary group of 'admin'
+    user:
+      name: "{{linux_user}}"
+      comment: faizal admin
+      group: admin
+
+- name: coping zip file and unarchive it.
+  hosts: nodeapp
+  vars_files:
+    - node-vars.yaml
+  become: yes
+  become_user: "{{linux_user}}"
+  tasks: 
+  - name: copy and unarchive
+    unarchive:
+      src: "{{location}}"
+      dest: "{{user_home_dir}}"
+  - name: Install node.js package
+    npm:
+      name: nodeapp
+      path: "{{user_home_dir}}/package"
+  - name: starting node app
+    command:
+      chdir: "{{user_home_dir}}/package/app"
+      cmd: node server
+    async: 1000
+    poll: 0
+  - name: ensure app is running
+    shell: ps aux | grep node
+    register: app_status
+  - debug: 
+      msg: "{{app_status.stdout_lines}}"
