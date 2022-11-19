@@ -1,4 +1,4 @@
 ---
-plugins: aws_ec2
+plugin: aws_ec2
 regions:
   - ap-south-1
